@@ -10,19 +10,24 @@ class Pelicula:
 
 class CatalogoPeli:
     def __init__(self, nombre, ruta_archivo):
-        self.nombre = nombre 
+        self.nombre = nombre
         self.ruta_archivo = ruta_archivo
 
     def crear_catalogo(self):
-        f = open(self.ruta_archivo, "w")
-        f.close()
-        return ("Catalogo creado")
+        if os.path.isfile(self.ruta_archivo):
+             cat_existe = input("El Catálogo " + self.ruta_archivo + " ya existe. ¿Desea sobrescribirlo? (S/N): ")
+             if cat_existe.lower() != 's':
+                return "No se creó el Catálogo."
+
+        with open(self.ruta_archivo, "w") as f:
+            pass  
+        return "Catálogo creado!"
 
     def agregar_pelicula(self, movie):
         f = open(self.ruta_archivo, "a")
         f.write(movie.titulo + "\n" + movie.director + "\n" + movie.anio + "\n" + movie.genero + "\n" + movie._valoracion + "\n")
         f.close()
-        return ("Pelicula agregada!")
+        return ("Película agregada!")
 
     def listar_pelicula(self):
         f = open(self.ruta_archivo, "r")
@@ -31,53 +36,50 @@ class CatalogoPeli:
 
     def eliminar_catalogo(self):
         os.remove(self.ruta_archivo)
-        return ("Catalogo eliminado")
-    
-def menu():
-    print("|| Menu de opciones ||")
-    print("====================")
-    print("1. Crear Catalogo")
-    print("2. Agregar Pelicula")
-    print("3. Listar Peliculas")
-    print("4. Eliminar catalogo de peliculas")
-    print("5. Salir")
-     
-def directorio():
-        ruta = CatalogoPeli("Test1", "Catalogo1.txt")
-        while True:
-            menu()
-            seleccion = int(input("Ingrese la opcion: ")) 
+        return ("Catálogo eliminado!")
 
-                       
+def menu():
+    print("╔═══════════════════════╗")
+    print("║    Menú de Opciones   ║")
+    print("╚═══════════════════════╝")
+    print("1. Agregar Película")
+    print("2. Listar Películas")
+    print("3. Eliminar Catálogo de Películas")
+    print("4. Salir")
+    print("≡ ≡ ≡ ≡ ≡ ≡ ")
+
+def directorio():
+         nombre = input("► Ingrese el nombre del Catálogo: ")
+         ruta_archivo = nombre + ".txt"
+         ruta = CatalogoPeli(nombre, ruta_archivo)
+         print(ruta.crear_catalogo())
+
+         while True:
+            menu()
+            seleccion = int(input("► Ingrese la opción: "))
+
             if seleccion == 1:
-                print(ruta.crear_catalogo()) 
-            elif seleccion == 2:
-                print("Ingrese los siguientes datos: ")
-                print("Titulo: ")
-                titulo = input("")
-                print("Director: ")
-                director = input("")
-                print("Año: ")
-                anio = input("")
-                print("Genero: ")
-                genero = input("")
-                print("Valoracion: ")
-                valoracion = input("")
+                print("► Ingrese los siguientes datos de la Peícula: ")
+                titulo = input("► Título: ")
+                director = input("► Director: ")
+                anio = input("► Año: ")
+                genero = input("► Género: ")
+                valoracion = input("► Valoración: ")
                 pelicula1 = Pelicula(titulo,director,anio,genero,valoracion)
-                print(ruta.agregar_pelicula(pelicula1)) 
+                print(ruta.agregar_pelicula(pelicula1))
+            elif seleccion == 2:
+                print(ruta.listar_pelicula())
             elif seleccion == 3:
-                print(ruta.listar_pelicula()) 
+                ruta.eliminar_catalogo()
             elif seleccion == 4:
-                ruta.eliminar_catalogo() 
-            elif seleccion == 5:
-                print("Seguro? S/N")
+                print("► Seguro? S/N")
                 rta = input()
-                if rta == "S":
-                    print("Saliendo del catalogo")
+                if rta == "s": 
+                    print("Saliendo del Catálogo ➜")
                     break
                 else:
-                    print("volver")
+                    print("Volviendo al menú ↻")
             else:
-                print("Opcion no valida.")
+                print("Opción no válida ✖")
 
 directorio()
