@@ -6,11 +6,11 @@ class Pelicula:
         self.director = director
         self.anio = anio
         self.genero = genero
-        self._valoracion = valoracion # Atributo Privado!
+        self._valoracion = valoracion 
 
 class CatalogoPeli:
     def __init__(self, nombre, ruta_archivo):
-        self.nombre = nombre # Nombre Catalogo.txt!
+        self.nombre = nombre 
         self.ruta_archivo = ruta_archivo
 
     def crear_catalogo(self):
@@ -28,6 +28,10 @@ class CatalogoPeli:
         f = open(self.ruta_archivo, "r")
         print(f.read())
         f.close()
+
+    def eliminar_catalogo(self):
+        os.remove(self.ruta_archivo)
+        return ("Catalogo eliminado")
     
 def menu():
     print("|| Menu de opciones ||")
@@ -64,11 +68,11 @@ def directorio():
             elif seleccion == 3:
                 print(ruta.listar_pelicula()) 
             elif seleccion == 4:
-                print("ELIMINAR CATALOGO") # ELIMINAR!
+                ruta.eliminar_catalogo() 
             elif seleccion == 5:
                 print("Seguro? S/N")
                 rta = input()
-                if rta == "S": 
+                if rta == "S":
                     print("Saliendo del catalogo")
                     break
                 else:
