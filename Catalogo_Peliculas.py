@@ -30,9 +30,13 @@ class CatalogoPeli:
         return ("Película agregada!")
 
     def listar_pelicula(self):
-        f = open(self.ruta_archivo, "r")
-        print(f.read())
-        f.close()
+        try:
+            f = open(self.ruta_archivo, "r")
+        except FileNotFoundError:
+            return ("El Catálogo no existe!")
+        else:
+            print(f.read())
+            f.close()
 
     def eliminar_catalogo(self):
         os.remove(self.ruta_archivo)
